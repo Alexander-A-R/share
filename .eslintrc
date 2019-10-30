@@ -1,0 +1,39 @@
+{
+  "extends": [
+    "graph"
+  ],
+  "parser": "babel-eslint",
+  "plugins": ["promise"],
+  "rules": {
+    "promise/prefer-await-to-then": "error",
+    "no-shadow": ["off"],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "no-underscore-dangle": [
+      "error",
+      {
+        "allow": [
+          "_id"
+        ],
+        "allowAfterThis": true
+      }
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
+    "react/jsx-indent-props": [
+      "error",
+      "tab"
+    ]
+  }
+}
