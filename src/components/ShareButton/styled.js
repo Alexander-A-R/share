@@ -37,7 +37,7 @@ export const Icon = styled.i`
 export const Tooltip = styled.div`
         display: block;
         position: ${props => props.type === 'list' ? 'static' : 'absolute'};
-        left: -45px;
+        left: -50px;
         top: 40px;
         padding-top: ${props => props.type === 'list' ? '0' : '9px'};
         font-size: 14px;
@@ -50,9 +50,9 @@ export const TooltipIcon = styled.div`
         margin: 0 auto;
 `;
 export const TooltipBox = styled.div`
-        box-shadow: 0 0 5px 0 rgba(0,0,0,.25);
+        box-shadow: ${props => props.type === 'list' ? 'none' : '0 0 5px 0 rgba(0,0,0,.25)'};
         background: #fff;
-        padding: 14px;
+        padding: ${props => props.type === 'list' ? '0' : '14px'};
 `;
 export const ButtonSocialShare = styled.div`
         margin: 7px;

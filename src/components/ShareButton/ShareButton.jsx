@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import {
 	Wrapper,
 	Button,
@@ -12,6 +11,7 @@ import {
 	LabelSocial,
 	Counter
 } from './styled';
+import {countRequest} from "./countRequest";
 
 
 
@@ -62,11 +62,18 @@ function SocialButton(props) {
 
 function Share(props) {
 	const {
-		className, style, type, textButton, countShare, socialList
+		className,
+		style,
+		type,
+		textButton,
+		countShare,
+		socialList
 	} = props;
-	const [tooltip, setTooltip] = useState(type === 'list');
-	const [count, setCount] = useState({vk: 0, mail: 0, ok: 0, facebook: 0, twitter: 0});
-	const [getCount, setGetCount] = useState(true);
+
+	const [tooltipState, setTooltip] = useState(type === 'list');
+	const [makeRequest, setMakeRequest] = useState(true);
+	const [count, setCount] = useState({});
+
 	const propsSocialsShare = {
 		vk: {
 			urlShare: 'https://vk.com/share.php?&url={url}',
@@ -95,78 +102,45 @@ function Share(props) {
 		}
 	};
 
-
-	async function getCounters() {
-		let responses = {};
-		const url = document.location.origin + document.location.pathname;
-		for (let social of socialList) {
-			const socialName = social.name;
-			const urlCount = propsSocialsShare[socialName].urlCount;
-			const requestUrl = urlCount.replace('{url}', url);
-
-			try {
-				const response = await axios(requestUrl);
-
-				if (response.status === 200) {
-					responses[socialName] = response;
-				}
-			} catch(err) {
-				console.error(err);
-			}
-		}
-		return responses;
-	}
-
 	function toggleTooltip() {
-		setTooltip(!tooltip);
-		if (getCount) {
-			getCounters()
-				.then(responses => setCounts(responses));
+		setTooltip(!tooltipState);
+		if (makeRequest) {
+			countRequest(socialList, propsSocialsShare)
+				.then(responses => setCount(responses));
 		}
-		setGetCount(false);
+		setMakeRequest(false);
 	}
 
-	function setCounts(responses) {
-		let countObject = {};
-		for (let responseName in responses) {
-			if (responseName !== 'facebook') {
-				countObject[responseName] = responses[responseName].data.count;
-			}
-			else {
-				countObject[responseName] = responses[responseName].data.engagement.share_count;
-			}
-		}
-		setCount(countObject);
-	}
-
-	const ShareButton = (
-		<Button onClick={toggleTooltip}>
-			<Icon/>
-			{textButton}
-		</Button>
-	);
-
-	const menu = (
-		<Tooltip type={type}>
-			{type === 'list' || <TooltipIcon />}
-			<TooltipBox type={type}>
-				{socialList.map(({name, textButton}) => (
-					<SocialButton socialName={name}
-								  textButton={textButton}
-								  counter={countShare}
-								  count={count[name]}
-								  propsSocialShare={propsSocialsShare[name]}
-								  key={name}
-					/>
-				))}
-			</TooltipBox>
-		</Tooltip>
-	);
+    if (type === 'list' && makeRequest) {
+        countRequest(socialList, propsSocialsShare)
+            .then(responses => setCount(responses));
+        setMakeRequest(false);
+    }
 
 	return (
 		<Wrapper className={className} style={style}>
-			{(type === 'list') || ShareButton}
-			{tooltip && menu}
+
+			{type === 'list' ||
+            <Button onClick={toggleTooltip}>
+                <Icon/>
+                {textButton}
+            </Button>}
+
+			{tooltipState &&
+            <Tooltip type={type}>
+                {type === 'list' || <TooltipIcon />}
+                <TooltipBox type={type}>
+                    {socialList.map(({name, textButton}) => (
+                        <SocialButton socialName={name}
+                                      textButton={textButton}
+                                      counter={countShare}
+                                      count={count[name]}
+                                      propsSocialShare={propsSocialsShare[name]}
+                                      key={name}
+                        />
+                    ))}
+                </TooltipBox>
+            </Tooltip>}
 		</Wrapper>
 	);
 }
