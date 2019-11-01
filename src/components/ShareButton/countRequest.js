@@ -5,10 +5,12 @@ function countRequest(socialList, propsSocialsShare) {
         const countObject = {};
 
         for (const responseName of Object.keys(responses)) {
-            if (responseName !== 'facebook') {
-                countObject[responseName] = String(responses[responseName].data.count);
-            } else {
-                countObject[responseName] = String(responses[responseName].data.engagement.share_count);
+            if (responses[responseName].status === 200) {
+                if (responseName !== 'facebook') {
+                    countObject[responseName] = String(responses[responseName].data.count);
+                } else {
+                    countObject[responseName] = String(responses[responseName].data.engagement.share_count);
+                }
             }
         }
 
