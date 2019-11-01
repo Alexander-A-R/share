@@ -1,24 +1,33 @@
-import axios from "axios";
+import axios from 'axios';
 
+function countRequest(socialList, propsSocialsShare) {
+    function getCountsFromResponses(responses) {
+        const countObject = {};
 
-export function countRequest(socialList, propsSocialsShare) {
+        for (const responseName of Object.keys(responses)) {
+            if (responseName !== 'facebook') {
+                countObject[responseName] = String(responses[responseName].data.count);
+            } else {
+                countObject[responseName] = String(responses[responseName].data.engagement.share_count);
+            }
+        }
 
+        return countObject;
+    }
 
     async function getCounters() {
-
-        let responses = {};
+        const responses = {};
         const url = document.location.origin + document.location.pathname;
-        for (let social of socialList) {
-            const socialName = social.name;
-            const urlCount = propsSocialsShare[socialName].urlCount;
-            const requestUrl = urlCount.replace('{url}', url);
 
+        for (const social of socialList) {
+            const {urlCount} = propsSocialsShare[social.name];
+            const requestUrl = urlCount.replace('{url}', url);
 
             try {
                 const response = await axios(requestUrl);
 
                 if (response.status === 200) {
-                    responses[socialName] = response;
+                    responses[social.name] = response;
                 }
             } catch (err) {
                 console.error(err);
@@ -27,18 +36,7 @@ export function countRequest(socialList, propsSocialsShare) {
         return getCountsFromResponses(responses);
     }
 
-    function getCountsFromResponses(responses) {
-        let countObject = {};
-
-        for (let responseName in responses) {
-            if (responseName !== 'facebook') {
-                countObject[responseName] = responses[responseName].data.count;
-            } else {
-                countObject[responseName] = responses[responseName].data.engagement.share_count;
-            }
-        }
-        return countObject;
-    }
-
     return getCounters();
 }
+
+export default countRequest;

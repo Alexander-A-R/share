@@ -61,28 +61,28 @@ export const ButtonSocialShare = styled.div`
         background: #fff;
         border-width: 1px;
         border-style: solid;
-        border-color: ${props => props.socialName === 'vk' ? '#526e8f' :
-                        props.socialName === 'mail' ? '#00468c' :
-                        props.socialName === 'ok' ? '#f59310' :
-                        props.socialName === 'facebook' ? '#2851A3' :
-                        props.socialName === 'twitter' ? '#00b7ec' : '#999'
+        border-color: ${props => props.socialName === 'vk' ? '#526e8f'
+                            : props.socialName === 'mail' ? '#00468c'
+                            : props.socialName === 'ok' ? '#f59310'
+                            : props.socialName === 'facebook' ? '#2851A3'
+                            : props.socialName === 'twitter' ? '#00b7ec' : '#999'
     };
-        color: ${props => props.socialName === 'vk' ? '#526e8f' :
-                 props.socialName === 'mail' ? '#00468c' : 
-                 props.socialName === 'ok' ? '#f59310' :
-                 props.socialName === 'facebook' ? '#2851A3' :
-                 props.socialName === 'twitter' ? '#00b7ec' : '#999'
+        color: ${props => props.socialName === 'vk' ? '#526e8f'
+                     : props.socialName === 'mail' ? '#00468c'
+                     : props.socialName === 'ok' ? '#f59310'
+                     : props.socialName === 'facebook' ? '#2851A3'
+                     : props.socialName === 'twitter' ? '#00b7ec' : '#999'
     };
         line-height: 1.7;
         cursor: pointer;
         font-family: "Helvetica Neue", Arial, sans-serif;
         
         &:hover{
-            background-color: ${props => props.socialName === 'vk' ? '#526e8f' :
-                                props.socialName === 'mail' ? '#00468c' :
-                                props.socialName === 'ok' ? '#f59310' :
-                                props.socialName === 'facebook' ? '#2851A3' :
-                                props.socialName === 'twitter' ? '#00b7ec' : '#999'
+            background-color: ${props => props.socialName === 'vk' ? '#526e8f'
+                                    : props.socialName === 'mail' ? '#00468c'
+                                    : props.socialName === 'ok' ? '#f59310'
+                                    : props.socialName === 'facebook' ? '#2851A3'
+                                    : props.socialName === 'twitter' ? '#00b7ec' : '#999'
     };
             color: #fff;
         }
@@ -95,11 +95,11 @@ export const LabelSocial = styled.span`
             background-repeat: no-repeat;
             background-size: contain;
             position: absolute;
-            background-image: ${props => props.socialName === 'vk' ? `url(${process.env.PUBLIC_URL}/icons/vk.svg)` :
-                                 props.socialName === 'mail' ? `url(${process.env.PUBLIC_URL}/icons/mail.svg)` :
-                                 props.socialName === 'ok' ? `url(${process.env.PUBLIC_URL}/icons/ok.svg)` :
-                                 props.socialName === 'facebook' ? `url(${process.env.PUBLIC_URL}/icons/facebook.svg)` :
-                                 props.socialName === 'twitter' ? `url(${process.env.PUBLIC_URL}/icons/twitter.svg)` : ''
+            background-image: ${props => props.socialName === 'vk' ? `url(${process.env.PUBLIC_URL}/icons/vk.svg)`
+                                     : props.socialName === 'mail' ? `url(${process.env.PUBLIC_URL}/icons/mail.svg)`
+                                     : props.socialName === 'ok' ? `url(${process.env.PUBLIC_URL}/icons/ok.svg)`
+                                     : props.socialName === 'facebook' ? `url(${process.env.PUBLIC_URL}/icons/facebook.svg)` 
+                                     : props.socialName === 'twitter' ? `url(${process.env.PUBLIC_URL}/icons/twitter.svg)` : ''
     };
             width: 20px;
             height: 16px; 
@@ -107,11 +107,11 @@ export const LabelSocial = styled.span`
             left: 4px;
         }
         ${ButtonSocialShare}:hover &:before{
-        	background-image: ${props => props.socialName === 'vk' ? `url(${process.env.PUBLIC_URL}/icons/vk_hover.svg)` :
-                                props.socialName === 'mail' ? `url(${process.env.PUBLIC_URL}/icons/mail_hover.svg)` :
-                                props.socialName === 'ok' ? `url(${process.env.PUBLIC_URL}/icons/ok_hover.svg)` :
-                                props.socialName === 'facebook' ? `url(${process.env.PUBLIC_URL}/icons/facebook_hover.svg)` :
-                                props.socialName === 'twitter' ? `url(${process.env.PUBLIC_URL}/icons/twitter_hover.svg)` : ''
+        	background-image: ${props => props.socialName === 'vk' ? `url(${process.env.PUBLIC_URL}/icons/vk_hover.svg)`
+                                : props.socialName === 'mail' ? `url(${process.env.PUBLIC_URL}/icons/mail_hover.svg)`
+                                : props.socialName === 'ok' ? `url(${process.env.PUBLIC_URL}/icons/ok_hover.svg)` 
+                                : props.socialName === 'facebook' ? `url(${process.env.PUBLIC_URL}/icons/facebook_hover.svg)`
+                                : props.socialName === 'twitter' ? `url(${process.env.PUBLIC_URL}/icons/twitter_hover.svg)` : ''
     };
         }
 `;

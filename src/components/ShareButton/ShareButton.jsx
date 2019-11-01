@@ -1,66 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {
-	Wrapper,
-	Button,
-	Icon,
-	Tooltip,
-	TooltipIcon,
-	TooltipBox,
-	ButtonSocialShare,
-	LabelSocial,
-	Counter
-} from './styled';
-import {countRequest} from "./countRequest";
+import {Wrapper, Button, Icon, Tooltip, TooltipIcon, TooltipBox} from './styled';
+import SocialButton from './SocialButton';
+import useShareButton from './useShareButton';
 
-
-
-/**
- * @return {null}
- */
-function SocialButton(props) {
-
-	if (!props.propsSocialShare) {
-		return null;
-	}
-
-	const {
-		socialName,
-		textButton,
-		counter,
-		count,
-		propsSocialShare
-	} = props;
-
-	const {urlShare, params} = propsSocialShare;
-
-	function popupShare() {
-		const url = document.location.origin + document.location.pathname;
-		const requestUrl = urlShare.replace('{url}', url);
-
-		window.open(requestUrl, 'windowShare', params);
-	}
-
-	return (
-		<ButtonSocialShare socialName={socialName} onClick={popupShare}>
-			<LabelSocial socialName={socialName}>{textButton}</LabelSocial>
-			{counter && <Counter>{count}</Counter>}
-		</ButtonSocialShare>
-	);
-}
-
-	SocialButton.propTypes = {
-		propsSocialShare: PropTypes.shape({
-			urlShare: PropTypes.string,
-			urlCount: PropTypes.string,
-			params: PropTypes.string
-		}),
-		textButton: PropTypes.string,
-		socialName: PropTypes.string,
-		counter: PropTypes.bool
-	};
-
-function Share(props) {
+function ShareButton(props) {
 	const {
 		className,
 		style,
@@ -69,10 +13,6 @@ function Share(props) {
 		countShare,
 		socialList
 	} = props;
-
-	const [tooltipState, setTooltip] = useState(type === 'list');
-	const [makeRequest, setMakeRequest] = useState(true);
-	const [count, setCount] = useState({});
 
 	const propsSocialsShare = {
 		vk: {
@@ -102,39 +42,29 @@ function Share(props) {
 		}
 	};
 
-	function toggleTooltip() {
-		setTooltip(!tooltipState);
-		if (makeRequest) {
-			countRequest(socialList, propsSocialsShare)
-				.then(responses => setCount(responses));
-		}
-		setMakeRequest(false);
-	}
+	const [tooltipState, toggleTooltipState, counts, makeRequestCounters] = useShareButton(type, socialList, propsSocialsShare);
 
-    if (type === 'list' && makeRequest) {
-        countRequest(socialList, propsSocialsShare)
-            .then(responses => setCount(responses));
-        setMakeRequest(false);
-    }
+	function toggleTooltip() {
+		toggleTooltipState();
+		makeRequestCounters();
+	}
 
 	return (
 		<Wrapper className={className} style={style}>
 
-			{type === 'list' ||
-            <Button onClick={toggleTooltip}>
-                <Icon/>
-                {textButton}
+			{type === 'list' || <Button onClick={toggleTooltip}>
+             <Icon/>
+				{textButton}
             </Button>}
 
-			{tooltipState &&
-            <Tooltip type={type}>
+			{tooltipState && <Tooltip type={type}>
                 {type === 'list' || <TooltipIcon />}
                 <TooltipBox type={type}>
                     {socialList.map(({name, textButton}) => (
                         <SocialButton socialName={name}
                                       textButton={textButton}
                                       counter={countShare}
-                                      count={count[name]}
+                                      count={counts[name]}
                                       propsSocialShare={propsSocialsShare[name]}
                                       key={name}
                         />
@@ -145,7 +75,7 @@ function Share(props) {
 	);
 }
 
-Share.propTypes = {
+ShareButton.propTypes = {
 	className: PropTypes.string,
 	style: PropTypes.objectOf(PropTypes.string),
 	type: PropTypes.oneOf(['button', 'list']),
@@ -157,7 +87,7 @@ Share.propTypes = {
 	}))
 };
 
-Share.defaultProps = {
+ShareButton.defaultProps = {
 	type: 'button',
 	textButton: 'Поделиться',
 	countShare: true,
@@ -170,4 +100,4 @@ Share.defaultProps = {
 	]
 };
 
-export default Share;
+export default ShareButton;
