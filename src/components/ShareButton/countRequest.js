@@ -28,6 +28,7 @@ function countRequest(socialList, propsSocialsShare) {
         });
 
         const promiseResponses = await Promise.allSettled(requests.map( url => axios(url)));
+
         socialList.forEach(social => {
             const response = promiseResponses.shift();
             if (response.status === 'fulfilled') {
