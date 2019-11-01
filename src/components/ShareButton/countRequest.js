@@ -17,23 +17,24 @@ function countRequest(socialList, propsSocialsShare) {
 
     async function getCounters() {
         const responses = {};
+        const requests = [];
+
         const url = document.location.origin + document.location.pathname;
 
-        for (const social of socialList) {
+        socialList.forEach(social => {
             const {urlCount} = propsSocialsShare[social.name];
-            const requestUrl = urlCount.replace('{url}', url);
+            const urlRequest = urlCount.replace('{url}', url);
+            requests.push(urlRequest);
+        });
 
-            try {
-                const response = await axios(requestUrl);
-
-                if (response.status === 200) {
-                    responses[social.name] = response;
-                }
-            } catch (err) {
-                console.error(err);
+        const promiseResponses = await Promise.allSettled(requests.map( url => axios(url)));
+        socialList.forEach(social => {
+            const response = promiseResponses.shift();
+            if (response.status === 'fulfilled') {
+                responses[social.name] = response.value;
             }
-        }
-        return getCountsFromResponses(responses);
+        });
+        return getCountsFromResponses(responses)
     }
 
     return getCounters();
