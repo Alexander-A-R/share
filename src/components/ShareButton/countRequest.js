@@ -29,12 +29,25 @@ function countRequest(socialList, propsSocialsShare) {
             requests.push(urlRequest);
         });
 
-        const promiseResponses = await Promise.allSettled(requests.map( url => axios(url)));
+        function promiseAxios(url) {
+            return axios(url)
+                .then(value => {
+                    return {status: 'fulfilled', value: value};
+                })
+                .catch(error => {
+                    return {status: 'rejected', reason: error};
+                });
+        }
+
+        const promiseResponses = await Promise.all(requests.map(promiseAxios));
 
         socialList.forEach(social => {
             const response = promiseResponses.shift();
             if (response.status === 'fulfilled') {
                 responses[social.name] = response.value;
+            }
+            else if (response.status === 'rejected') {
+                console.error(`${social.name}: ${response.reason}`);
             }
         });
         return getCountsFromResponses(responses)
