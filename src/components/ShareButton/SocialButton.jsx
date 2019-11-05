@@ -6,7 +6,10 @@ import PropTypes from "prop-types";
  * @return {null}
  */
 function SocialButton(props) {
-
+    /**
+     * Данный шаг лучше проверять выше когда рендеришь соц. сети, а не в самом компоненте, либо же
+     * сделать проверку ниже до return
+     * */
     if (!props.propsSocialShare) {
         return null;
     }
@@ -22,6 +25,9 @@ function SocialButton(props) {
     const {urlShare, params} = propsSocialShare;
 
     function popupShare() {
+        /**
+         * дублируется код
+         * */
         const url = document.location.origin + document.location.pathname;
         const requestUrl = urlShare.replace('{url}', url);
 

@@ -4,6 +4,10 @@ import {Wrapper, Button, Icon, Tooltip, TooltipIcon, TooltipBox} from './styled'
 import SocialButton from './SocialButton';
 import useShareButton from './useShareButton';
 
+/**
+ * 1. Тут можно использовать стрелочную функцию
+ * 2. Пропсы ты можешь развенуть прямо в аргументе функции
+ * */
 function ShareButton(props) {
 	const {
 		className,
@@ -14,6 +18,9 @@ function ShareButton(props) {
 		socialList
 	} = props;
 
+	/**
+	 * Это лучше вынести в hook, чтобы не было ничего лишнего
+	 * */
 	const propsSocialsShare = {
 		vk: {
 			urlShare: 'https://vk.com/share.php?&url={url}',
@@ -42,8 +49,14 @@ function ShareButton(props) {
 		}
 	};
 
+	/**
+	 * Лучше использовать объект, тогда тебе не придется ровно в таком же порядке отдавать элементы
+	 * */
 	const [tooltipState, toggleTooltipState, counts, makeRequestCounters] = useShareButton(type, socialList, propsSocialsShare);
 
+	/**
+	 * Лучше стрелочной функцией сделать и также в hook переместить
+	 * */
 	function toggleTooltip() {
 		toggleTooltipState();
 		makeRequestCounters();
@@ -53,9 +66,16 @@ function ShareButton(props) {
 		<Wrapper className={className} style={style}>
 
 			{type === 'list' || <Button onClick={toggleTooltip}>
+				{/**
+				    Лучше всего подключить svg loader и подключить иконку без стилей
+				 */}
              <Icon/>
 				{textButton}
             </Button>}
+
+			{/**
+				    Лучше всего подключить svg loader и подключить иконку без стилей
+			 */}
 
 			{tooltipState && <Tooltip type={type}>
                 {type === 'list' || <TooltipIcon />}

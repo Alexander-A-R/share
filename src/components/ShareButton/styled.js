@@ -4,8 +4,11 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
         display: inline-block;
 `;
-
+/*
+* Ты пишешь банной, а используешь div?
+* */
 export const Button = styled.div`
+        /*Не стоит так импортировать шрифт, лучше всего его засунуть подключение в глобальные стили*/
 		@import url('https://fonts.googleapis.com/css?family=Roboto:500&display=swap');
 		display: flex;
 		align-items: center;
@@ -20,12 +23,18 @@ export const Button = styled.div`
         font-size: 13px;
         height: 18px;
         transition: .2s background-color;
+        /*не забывай пробелы и в sans-serif входит arial */
         font-family: 'Roboto',arial,sans-serif;
         
         &:hover{
             background-color: #e5f6fb;
         }
 `;
+
+/*
+* Лучше svg-loader использовать
+* Ну и у элемента i, точно в html стандарте было не написано, что это иконка)
+* */
 export const Icon = styled.i`
 		display: inline-block;
         height: 17px;
@@ -42,6 +51,9 @@ export const Tooltip = styled.div`
         padding-top: ${props => props.type === 'list' ? '0' : '9px'};
         font-size: 14px;
 `;
+/**
+ * Не стоит svg спрайт тянуть ради стрелочки, ты ее можешь с помощью css сверстать
+ * */
 export const TooltipIcon = styled.div`
         background-image: url(https://zaycev.net/static/images/icons.png);
         background-position: -146px -28px;
@@ -61,12 +73,14 @@ export const ButtonSocialShare = styled.div`
         background: #fff;
         border-width: 1px;
         border-style: solid;
+        // Мне кажется тут все слишком сложно
         border-color: ${props => props.socialName === 'vk' ? '#526e8f'
                             : props.socialName === 'mail' ? '#00468c'
                             : props.socialName === 'ok' ? '#f59310'
                             : props.socialName === 'facebook' ? '#2851A3'
                             : props.socialName === 'twitter' ? '#00b7ec' : '#999'
     };
+        // Мне кажется тут все слишком сложно
         color: ${props => props.socialName === 'vk' ? '#526e8f'
                      : props.socialName === 'mail' ? '#00468c'
                      : props.socialName === 'ok' ? '#f59310'
@@ -78,6 +92,7 @@ export const ButtonSocialShare = styled.div`
         font-family: "Helvetica Neue", Arial, sans-serif;
         
         &:hover{
+        // Мне кажется тут все слишком сложно
             background-color: ${props => props.socialName === 'vk' ? '#526e8f'
                                     : props.socialName === 'mail' ? '#00468c'
                                     : props.socialName === 'ok' ? '#f59310'
@@ -95,6 +110,7 @@ export const LabelSocial = styled.span`
             background-repeat: no-repeat;
             background-size: contain;
             position: absolute;
+            // Мне кажется тут все слишком сложно
             background-image: ${props => props.socialName === 'vk' ? `url(${process.env.PUBLIC_URL}/icons/vk.svg)`
                                      : props.socialName === 'mail' ? `url(${process.env.PUBLIC_URL}/icons/mail.svg)`
                                      : props.socialName === 'ok' ? `url(${process.env.PUBLIC_URL}/icons/ok.svg)`
@@ -107,6 +123,7 @@ export const LabelSocial = styled.span`
             left: 4px;
         }
         ${ButtonSocialShare}:hover &:before{
+        // Мне кажется тут все слишком сложно
         	background-image: ${props => props.socialName === 'vk' ? `url(${process.env.PUBLIC_URL}/icons/vk_hover.svg)`
                                 : props.socialName === 'mail' ? `url(${process.env.PUBLIC_URL}/icons/mail_hover.svg)`
                                 : props.socialName === 'ok' ? `url(${process.env.PUBLIC_URL}/icons/ok_hover.svg)` 
