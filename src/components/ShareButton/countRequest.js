@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+/**
+ * 1. Мне кажется все опереции которые тут есть излишни, не проще было бы сделать
+ *    к каждой соц. сети по отдельности. И если одна соц сеть сломается, то остальные не пострадают
+ * */
 function countRequest(socialList, propsSocialsShare) {
     function getCountsFromResponses(responses) {
         const countObject = {};
@@ -7,6 +11,9 @@ function countRequest(socialList, propsSocialsShare) {
         for (const responseName of Object.keys(responses)) {
             if (responses[responseName].status === 200) {
                 if (responseName !== 'facebook') {
+                    /**
+                     * а зачем все в строку переводить?
+                     * */
                     countObject[responseName] = String(responses[responseName].data.count);
                 } else {
                     countObject[responseName] = String(responses[responseName].data.engagement.share_count);
@@ -21,6 +28,9 @@ function countRequest(socialList, propsSocialsShare) {
         const responses = {};
         const requests = [];
 
+        /**
+         * document.location.href делает тоже самое
+         * */
         const url = document.location.origin + document.location.pathname;
 
         socialList.forEach(social => {
@@ -30,6 +40,9 @@ function countRequest(socialList, propsSocialsShare) {
         });
 
         function promiseAxios(url) {
+            /**
+             * рекомендую async/await использовать
+             * */
             return axios(url)
                 .then(value => {
                     return {status: 'fulfilled', value: value};
