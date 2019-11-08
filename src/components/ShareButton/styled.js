@@ -1,9 +1,4 @@
-import styled, {createGlobalStyle} from "styled-components";
-
-
-export const GlobalStyle = createGlobalStyle`
-       @import url('https://fonts.googleapis.com/css?family=Roboto:500&display=swap');
-`;
+import styled from "styled-components";
 
 export const Wrapper = styled.div`
         display: inline-block;

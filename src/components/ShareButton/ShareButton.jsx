@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {GlobalStyle, Wrapper, Button, ButtonLabel, Tooltip} from './styled';
+import {Wrapper, Button, ButtonLabel, Tooltip} from './styled';
 import {ReactComponent as Icon} from './share-icon.svg';
 import SocialButton from '../SocialButton/SocialButton';
 import useShareButton from './useShareButton';
@@ -11,7 +11,6 @@ const ShareButton = ({className, style, type, textButton, countShare, socialList
 
 	return (
 		<Wrapper className={className} style={style}>
-			<GlobalStyle />
 			{type === 'list' || <Button onClick={toggleTooltip}>
 				<Icon />
 				<ButtonLabel>{textButton}</ButtonLabel>
