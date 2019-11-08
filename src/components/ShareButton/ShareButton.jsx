@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {GlobalStyle, Wrapper, Button, Tooltip, TooltipIconBox, TooltipIcon, TooltipBox} from './styled';
-import InlineSVG from 'svg-inline-react';
-import ShareIcon from './share-icon.svg';
+import {GlobalStyle, Wrapper, Button, ButtonLabel, Tooltip} from './styled';
+import {ReactComponent as Icon} from './share-icon.svg';
 import SocialButton from '../SocialButton/SocialButton';
 import useShareButton from './useShareButton';
 
@@ -14,12 +13,11 @@ const ShareButton = ({className, style, type, textButton, countShare, socialList
 		<Wrapper className={className} style={style}>
 			<GlobalStyle />
 			{type === 'list' || <Button onClick={toggleTooltip}>
-				<InlineSVG svg={ShareIcon} />
-				{textButton}
+				<Icon />
+				<ButtonLabel>{textButton}</ButtonLabel>
             </Button>}
 
-			{tooltipState && <Tooltip type={type}>
-                <TooltipBox type={type}>
+				{tooltipState && <Tooltip type={type}>
                     {socialList.map(({name, textButton}) => (
                         <SocialButton socialName={name}
                                       textButton={textButton}
@@ -29,8 +27,7 @@ const ShareButton = ({className, style, type, textButton, countShare, socialList
                                       key={name}
                         />
                     ))}
-                </TooltipBox>
-            </Tooltip>}
+                </Tooltip>}
 		</Wrapper>
 	);
 };

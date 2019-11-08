@@ -5,7 +5,6 @@
   "parser": "babel-eslint",
   "plugins": ["promise"],
   "rules": {
-    "import/no-webpack-loader-syntax": "on",
     "promise/prefer-await-to-then": "error",
     "no-shadow": ["off"],
     "import/no-extraneous-dependencies": [

@@ -28,29 +28,21 @@ export const Button = styled.button`
         :hover{
             background-color: #e5f6fb;
         }
-        ::before{
-            content: '';
-            height: 17px;
-            width: 17px;
-            margin-right: 10px; 
-            background-repeat: no-repeat;
-            background-image: url(https://zaycev.net/static/less/buttons/share/share-icon.svg);
-        }
+        
+`;
+
+export const ButtonLabel = styled.span`
+        margin-left: 10px;
 `;
 
 export const Tooltip = styled.div`
-        display: block;
         position: ${({type}) => type === 'list' ? 'static' : 'absolute'};
         left: -50px;
-        top: 55px;
-        padding-top: ${({type}) => type === 'list' ? '0' : '9px'};
-        font-size: 14px;
-`;
-
-export const TooltipBox = styled.div`
-        box-shadow: ${({type}) => type === 'list' ? 'none' : '0 0 5px 0 rgba(0, 0, 0, .25)'};
+        top: 65px;
         background: #fff;
+        font-size: 14px;
         padding: ${({type}) => type === 'list' ? '0' : '14px'};
+        box-shadow: ${({type}) => type === 'list' ? 'none' : '0 0 5px 0 rgba(0, 0, 0, .25)'};
         
         ::before{
             display: ${({type}) => type === 'list' ? 'none' : ''};
@@ -58,7 +50,7 @@ export const TooltipBox = styled.div`
             color: #fff;
             font-size: 14px;
             position: absolute;
-            top: -5px;
+            top: -13px;
             left: 105px;
             transform: scaleX(2.5);
             text-shadow: 0 -2px 2px rgba(0, 0, 0, .25);
