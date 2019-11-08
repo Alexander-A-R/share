@@ -1,71 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Wrapper, Button, Icon, Tooltip, TooltipIcon, TooltipBox} from './styled';
-import SocialButton from './SocialButton';
+import {GlobalStyle, Wrapper, Button, Tooltip, TooltipIconBox, TooltipIcon, TooltipBox} from './styled';
+import InlineSVG from 'svg-inline-react';
+import ShareIcon from './share-icon.svg';
+import SocialButton from '../SocialButton/SocialButton';
 import useShareButton from './useShareButton';
 
-function ShareButton(props) {
-	const {
-		className,
-		style,
-		type,
-		textButton,
-		countShare,
-		socialList
-	} = props;
+const ShareButton = ({className, style, type, textButton, countShare, socialList}) => {
 
-	const propsSocialsShare = {
-		vk: {
-			urlShare: 'https://vk.com/share.php?&url={url}',
-			urlCount: 'https://zaycev.net/api/external/social/vk?url={url}',
-			params: 'width=650, height=570'
-		},
-		mail: {
-			urlShare: 'http://connect.mail.ru/share?share_url={url}',
-			urlCount: 'https://zaycev.net/api/external/social/mail?url={url}',
-			params: 'width=550, height=360'
-		},
-		ok: {
-			urlShare: 'https://connect.ok.ru/offer?url={url}',
-			urlCount: 'https://zaycev.net/api/external/social/ok?url={url}',
-			params: 'width=550, height=360'
-		},
-		facebook: {
-			urlShare: 'http://www.facebook.com/sharer/sharer.php?u={url}',
-			urlCount: 'https://graph.facebook.com/?id={url}&fields=engagement&access_token=554151405320632|TC5PKffr4rEmq5idMRyGsmdhTzg',
-			params: 'width=600, height=500'
-		},
-		twitter: {
-			urlShare: 'http://twitter.com/intent/tweet?url={url}',
-			urlCount: 'https://counts.twitcount.com/counts.php?url={url}',
-			params: 'width=600, height=450'
-		}
-	};
-
-	const [tooltipState, toggleTooltipState, counts, makeRequestCounters] = useShareButton(type, socialList, propsSocialsShare);
-
-	function toggleTooltip() {
-		toggleTooltipState();
-		makeRequestCounters();
-	}
+	const {tooltipState, toggleTooltip, counts, propsSocialsShare} = useShareButton(type, countShare, socialList);
 
 	return (
 		<Wrapper className={className} style={style}>
-
+			<GlobalStyle />
 			{type === 'list' || <Button onClick={toggleTooltip}>
-             <Icon/>
+				<InlineSVG svg={ShareIcon} />
 				{textButton}
             </Button>}
 
 			{tooltipState && <Tooltip type={type}>
-                {type === 'list' || <TooltipIcon />}
                 <TooltipBox type={type}>
                     {socialList.map(({name, textButton}) => (
                         <SocialButton socialName={name}
                                       textButton={textButton}
                                       counter={countShare}
                                       count={counts[name]}
-                                      propsSocialShare={propsSocialsShare[name]}
+                                      urlShare={propsSocialsShare[name].urlShare}
                                       key={name}
                         />
                     ))}
@@ -73,7 +33,7 @@ function ShareButton(props) {
             </Tooltip>}
 		</Wrapper>
 	);
-}
+};
 
 ShareButton.propTypes = {
 	className: PropTypes.string,

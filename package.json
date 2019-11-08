@@ -35,10 +35,11 @@
     "babel-eslint": "10.0.3",
     "eslint": "6.5.1",
     "eslint-config-graph": "^8.1.0-alpha",
-    "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jest": "^23.0.2",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.16.0"
+    "eslint-plugin-react": "^7.16.0",
+    "svg-inline-loader": "^0.8.0",
+    "svg-inline-react": "^3.2.0"
   },
   "description": "button share",
   "main": "index.js",

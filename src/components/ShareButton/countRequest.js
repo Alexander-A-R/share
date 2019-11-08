@@ -1,19 +1,31 @@
 import axios from 'axios';
 
 function countRequest(socialList, propsSocialsShare) {
+
     function getCountsFromResponses(responses) {
         const countObject = {};
 
         for (const responseName of Object.keys(responses)) {
             if (responses[responseName].status === 200) {
-                if (responseName !== 'facebook') {
-                    countObject[responseName] = String(responses[responseName].data.count);
-                } else {
-                    countObject[responseName] = String(responses[responseName].data.engagement.share_count);
+
+                switch(responseName) {
+                    case 'facebook':
+                        try {
+                            countObject[responseName] = responses[responseName].data.engagement.share_count;
+                        } catch(err) {
+                            console.error(err);
+                        }
+                        break;
+                    default:
+                        try {
+                            countObject[responseName] = responses[responseName].data.count;
+                        } catch(err) {
+                            console.error(err);
+                        }
+                        break;
                 }
             }
         }
-
         return countObject;
     }
 
@@ -21,36 +33,27 @@ function countRequest(socialList, propsSocialsShare) {
         const responses = {};
         const requests = [];
 
-        const url = document.location.origin + document.location.pathname;
+        const url = document.location.href;
 
-        socialList.forEach(social => {
-            const {urlCount} = propsSocialsShare[social.name];
+        socialList.forEach(({name}) => {
+            const {urlCount} = propsSocialsShare[name];
             const urlRequest = urlCount.replace('{url}', url);
             requests.push(urlRequest);
         });
 
-        function promiseAxios(url) {
-            return axios(url)
-                .then(value => {
-                    return {status: 'fulfilled', value: value};
-                })
-                .catch(error => {
-                    return {status: 'rejected', reason: error};
-                });
+        async function promiseAxios(url) {
+            return await axios(url).catch(err => console.error(err));
         }
 
         const promiseResponses = await Promise.all(requests.map(promiseAxios));
 
-        socialList.forEach(social => {
+        socialList.forEach(({name}) => {
             const response = promiseResponses.shift();
-            if (response.status === 'fulfilled') {
-                responses[social.name] = response.value;
-            }
-            else if (response.status === 'rejected') {
-                console.error(`${social.name}: ${response.reason}`);
+            if (response) {
+                responses[name] = response;
             }
         });
-        return getCountsFromResponses(responses)
+        return getCountsFromResponses(responses);
     }
 
     return getCounters();
